@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Clip Crown – Premium Videography & Film Production. We craft cinematic stories that captivate, inspire, and convert." />
+  <meta name="keywords" content="videography, film production, wedding videography, commercial video, cinematic, event coverage, Clip Crown" />
+  <title>Clip Crown | Premium Videography & Film Production</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --gold:        #C9A84C;
+      --gold-light:  #E8C96A;
+      --gold-dim:    #7A5E28;
+      --black:       #070707;
+      --dark:        #0D0D0D;
+      --dark2:       #141414;
+      --dark3:       #1C1C1C;
+      --dark4:       #242424;
+      --white:       #F5F0E8;
+      --white-dim:   rgba(245,240,232,0.65);
+      --white-faint: rgba(245,240,232,0.12);
+      --border:      rgba(201,168,76,0.22);
+      --serif:       'Cormorant Garamond', Georgia, serif;
+      --display:     'Bebas Neue', sans-serif;
+      --sans:        'DM Sans', sans-serif;
+      --radius:      4px;
+      --transition:  0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display:block; width:100%; object-fit:cover; }
+    ul { list-style: none; }
+
+    /* ============================================================
+       LOADING SCREEN
+    ============================================================ */
+    #loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 20px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity:0; visibility:hidden; }
+    .loader-logo {
+      font-family: var(--display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.25em;
+      color: var(--gold);
+    }
+    .loader-bar {
+      width: 180px; height: 1px;
+      background: var(--border);
+      position: relative; overflow: hidden;
+    }
+    .loader-bar::after {
+      content:'';
+      position:absolute; left:-100%; top:0;
+      width:100%; height:100%;
+      background: var(--gold);
+      animation: loadBar 1.6s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+    @keyframes loadBar { to { left:100%; } }
+
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      padding: 0 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    nav.scrolled {
+      background: rgba(7,7,7,0.92);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-logo {
+      font-family: var(--display);
+      font-size: 1.7rem;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+    }
+    .nav-links {
+      display: flex; gap: 2.5rem; align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px;
+      background: var(--gold); transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      border: 1px solid var(--gold) !important;
+      padding: 0.45em 1.3em !important;
+      border-radius: var(--radius);
+      color: var(--gold) !important;
+      transition: background var(--transition), color var(--transition) !important;
+    }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--black) !important; }
+    .nav-cta::after { display:none !important; }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display:block; width:24px; height:1.5px; background:var(--white);
+      transition: var(--transition);
+    }
+
+    /* Mobile nav */
+    .mobile-nav {
+      display: none; position:fixed; inset:0; z-index:800;
+      background: rgba(7,7,7,0.97);
+      flex-direction: column; align-items:center; justify-content:center; gap:2.5rem;
+    }
+    .mobile-nav.open { display:flex; }
+    .mobile-nav a {
+      font-family: var(--display);
+      font-size: clamp(2rem,7vw,3.5rem);
+      letter-spacing: 0.15em;
+      color: var(--white-dim);
+      transition: color var(--transition);
+    }
+    .mobile-nav a:hover { color: var(--gold); }
+
+    /* ============================================================
+       SECTIONS / PAGES
+    ============================================================ */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(135deg, rgba(7,7,7,0.85) 0%, rgba(7,7,7,0.4) 60%, rgba(7,7,7,0.75) 100%),
+        url('https://images.unsplash.com/photo-1633478062482-790e3b5dd810?w=1800&q=80') center/cover no-repeat;
+    }
+    .hero-bg::after {
+      content:'';
+      position:absolute; bottom:0; left:0; right:0; height:220px;
+      background: linear-gradient(to top, var(--black), transparent);
+    }
+    .hero-content {
+      position: relative; z-index:2;
+      text-align: center;
+      padding: 0 5vw;
+      max-width: 900px;
+    }
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-headline {
+      font-family: var(--display);
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp 0.9s 0.75s forwards;
+    }
+    .hero-headline span { color: var(--gold); }
+    .hero-sub {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+      font-style: italic;
+      color: var(--white-dim);
+      max-width: 560px; margin: 0 auto 2.5rem;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.9s 1s forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.9s 1.25s forwards;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--black);
+      padding: 0.85em 2.4em;
+      font-family: var(--sans); font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      border-radius: var(--radius);
+      border: 1px solid var(--gold);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-primary:hover {
+      background: transparent; color: var(--gold);
+      box-shadow: 0 0 28px rgba(201,168,76,0.25);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      padding: 0.85em 2.4em;
+      font-family: var(--sans); font-size: 0.8rem; font-weight: 400;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      border-radius: var(--radius);
+      border: 1px solid rgba(245,240,232,0.3);
+      cursor: pointer;
+      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .hero-scroll {
+      position:absolute; bottom: 2.5rem; left:50%; transform:translateX(-50%);
+      z-index:2; display:flex; flex-direction:column; align-items:center; gap:8px;
+      opacity:0; animation: fadeUp 1s 1.8s forwards;
+    }
+    .hero-scroll span {
+      font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold-dim);
+    }
+    .scroll-line {
+      width:1px; height:50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse { 0%,100%{opacity:0.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.2)} }
+
+    /* Stats bar */
+    .stats-bar {
+      background: var(--dark2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 5vw;
+      display: grid; grid-template-columns: repeat(4,1fr);
+      text-align: center; gap: 1rem;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: var(--display);
+      font-size: clamp(2rem,4vw,3.2rem);
+      color: var(--gold); letter-spacing:0.05em;
+    }
+    .stat-label {
+      font-size: 0.72rem; letter-spacing:0.2em; text-transform:uppercase;
+      color: var(--white-dim); margin-top:0.25rem;
+    }
+
+    /* ============================================================
+       SECTION GENERICS
+    ============================================================ */
+    section { padding: 7rem 5vw; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.68rem; letter-spacing:0.35em; text-transform:uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      font-weight: 300; line-height:1.15;
+      color: var(--white); margin-bottom: 1.25rem;
+    }
+    .section-title em { font-style:italic; color:var(--gold); }
+    .section-body {
+      font-size: 0.95rem; color:var(--white-dim); max-width:560px; line-height:1.8;
+    }
+    .divider {
+      width:60px; height:1px; background: var(--gold); margin: 1.5rem 0;
+    }
+
+    /* ============================================================
+       SERVICES SECTION (HOME)
+    ============================================================ */
+    .services-home {
+      background: var(--dark);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5px;
+      margin-top: 4rem;
+      border: 1.5px solid var(--border);
+    }
+    .service-card {
+      background: var(--dark2);
+      padding: 2.5rem 2rem;
+      position:relative; overflow:hidden;
+      transition: background var(--transition);
+      cursor: default;
+    }
+    .service-card::before {
+      content:''; position:absolute; bottom:0; left:0; width:0; height:2px;
+      background: var(--gold); transition: width 0.5s ease;
+    }
+    .service-card:hover { background: var(--dark3); }
+    .service-card:hover::before { width:100%; }
+    .service-icon {
+      font-size: 2rem; margin-bottom: 1.2rem; color: var(--gold);
+    }
+    .service-name {
+      font-family: var(--serif);
+      font-size: 1.35rem; font-weight:600;
+      color:var(--white); margin-bottom:0.6rem;
+    }
+    .service-desc {
+      font-size: 0.85rem; color:var(--white-dim); line-height:1.75;
+    }
+
+    /* ============================================================
+       WHY US
+    ============================================================ */
+    .why-us { background: var(--black); }
+    .why-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      align-items: center; margin-top: 3rem;
+    }
+    .why-img {
+      position:relative;
+    }
+    .why-img img {
+      height: 560px; border-radius: var(--radius);
+      filter: grayscale(20%);
+    }
+    .why-img-badge {
+      position:absolute; bottom:-20px; right:-20px;
+      background:var(--gold); color:var(--black);
+      padding:1.5rem; text-align:center;
+      font-family:var(--display); font-size:1.8rem; letter-spacing:0.05em;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 40px rgba(201,168,76,0.3);
+    }
+    .why-img-badge small {
+      display:block; font-family:var(--sans); font-size:0.65rem;
+      letter-spacing:0.15em; text-transform:uppercase; font-weight:500;
+    }
+    .why-features { display:flex; flex-direction:column; gap:2rem; }
+    .why-feature {
+      display:flex; gap:1.2rem; align-items:flex-start;
+    }
+    .why-feature-icon {
+      width:44px; height:44px; flex-shrink:0;
+      background: var(--white-faint); border:1px solid var(--border);
+      border-radius: var(--radius);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.1rem; color:var(--gold);
+    }
+    .why-feature-text h4 {
+      font-family:var(--serif); font-size:1.1rem; font-weight:600;
+      color:var(--white); margin-bottom:0.3rem;
+    }
+    .why-feature-text p { font-size:0.85rem; color:var(--white-dim); }
+
+    /* ============================================================
+       PORTFOLIO / REEL
+    ============================================================ */
+    .reel-section { background: var(--dark2); }
+    .reel-wrapper {
+      margin-top:3rem;
+      position:relative;
+      border-radius:var(--radius); overflow:hidden;
+      background: var(--dark3);
+      aspect-ratio: 16/9;
+      border: 1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .reel-poster {
+      position:absolute; inset:0;
+      background: url('https://images.unsplash.com/photo-1540655037529-dec987208707?w=1400&q=80') center/cover;
+      filter:brightness(0.4);
+    }
+    .reel-play {
+      position:relative; z-index:2;
+      width:80px; height:80px; border-radius:50%;
+      border:2px solid var(--gold);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; transition: transform var(--transition), box-shadow var(--transition);
+      background: rgba(201,168,76,0.1);
+    }
+    .reel-play:hover { transform:scale(1.12); box-shadow:0 0 40px rgba(201,168,76,0.4); }
+    .reel-play svg { fill:var(--gold); width:30px; height:30px; margin-left:4px; }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .work-item {
+      position:relative; overflow:hidden; border-radius:var(--radius);
+      cursor:pointer;
+    }
+    .work-item img {
+      height: 240px; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+      filter: grayscale(30%);
+    }
+    .work-item:hover img { transform:scale(1.06); filter:grayscale(0%); }
+    .work-overlay {
+      position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(7,7,7,0.85) 0%, transparent 55%);
+      display:flex; flex-direction:column; justify-content:flex-end; padding:1.5rem;
+      opacity:0; transition: opacity var(--transition);
+    }
+    .work-item:hover .work-overlay { opacity:1; }
+    .work-cat { font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); }
+    .work-title { font-family:var(--serif); font-size:1.1rem; font-weight:600; margin-top:0.2rem; }
+
+    /* ============================================================
+       TESTIMONIALS
+    ============================================================ */
+    .testimonials { background:var(--black); }
+    .testi-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:1.5rem; margin-top:3.5rem;
+    }
+    .testi-card {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.8rem;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .testi-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,0,0,0.4); }
+    .testi-stars { color:var(--gold); font-size:0.9rem; letter-spacing:2px; margin-bottom:1rem; }
+    .testi-quote {
+      font-family:var(--serif); font-size:1.05rem; font-style:italic;
+      color:var(--white-dim); line-height:1.7; margin-bottom:1.5rem;
+    }
+    .testi-author { font-size:0.78rem; font-weight:500; letter-spacing:0.1em; color:var(--white); }
+    .testi-role { font-size:0.72rem; color:var(--gold-dim); margin-top:2px; }
+
+    /* ============================================================
+       CTA BAND
+    ============================================================ */
+    .cta-band {
+      background: var(--dark2);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+      padding:6rem 5vw;
+      text-align:center;
+    }
+    .cta-band h2 {
+      font-family:var(--display);
+      font-size:clamp(2.5rem,6vw,5.5rem);
+      letter-spacing:0.08em; color:var(--white); margin-bottom:1rem;
+    }
+    .cta-band h2 span { color:var(--gold); }
+    .cta-band p {
+      font-family:var(--serif); font-style:italic;
+      font-size:1.1rem; color:var(--white-dim);
+      max-width:480px; margin:0 auto 2.5rem;
+    }
+
+    /* ============================================================
+       SERVICES PAGE
+    ============================================================ */
+    .page-hero {
+      padding-top: 10rem; padding-bottom: 5rem; padding-left:5vw; padding-right:5vw;
+      background: var(--dark);
+      border-bottom:1px solid var(--border);
+    }
+    .page-hero h1 {
+      font-family:var(--display);
+      font-size:clamp(3rem,7vw,6rem);
+      letter-spacing:0.08em; line-height:1;
+      margin-bottom:0.75rem;
+    }
+    .page-hero p {
+      font-family:var(--serif); font-style:italic;
+      font-size:1.2rem; color:var(--white-dim); max-width:500px;
+    }
+    .services-full {
+      background:var(--black);
+    }
+    .services-full-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:2rem; margin-top:1rem;
+    }
+    .service-full-card {
+      background:var(--dark2); border:1px solid var(--border);
+      border-radius:var(--radius); overflow:hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .service-full-card:hover { transform:translateY(-8px); box-shadow:0 24px 60px rgba(0,0,0,0.5); }
+    .service-full-img { height:200px; overflow:hidden; }
+    .service-full-img img { height:200px; transition:transform 0.7s ease; }
+    .service-full-card:hover .service-full-img img { transform:scale(1.07); }
+    .service-full-body { padding:1.8rem; }
+    .service-full-body h3 {
+      font-family:var(--serif); font-size:1.3rem; font-weight:600;
+      color:var(--white); margin-bottom:0.6rem;
+    }
+    .service-full-body p { font-size:0.85rem; color:var(--white-dim); line-height:1.75; }
+
+    /* ============================================================
+       PRICING PAGE
+    ============================================================ */
+    .pricing-section { background:var(--black); }
+    .pricing-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:1.5rem; margin-top:4rem; align-items:start;
+    }
+    .price-card {
+      background:var(--dark2); border:1px solid var(--border);
+      border-radius:var(--radius); padding:2.5rem 2rem;
+      transition: transform var(--transition), box-shadow var(--transition);
+      position:relative;
+    }
+    .price-card:hover { transform:translateY(-8px); box-shadow:0 24px 60px rgba(0,0,0,0.5); }
+    .price-card.popular {
+      border-color:var(--gold);
+      background:var(--dark3);
+    }
+    .popular-badge {
+      position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+      background:var(--gold); color:var(--black);
+      font-size:0.65rem; font-weight:500; letter-spacing:0.2em; text-transform:uppercase;
+      padding:0.3em 1.2em; border-radius:20px;
+    }
+    .price-tier {
+      font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:0.75rem;
+    }
+    .price-name {
+      font-family:var(--serif); font-size:1.5rem; font-weight:600;
+      color:var(--white); margin-bottom:0.5rem;
+    }
+    .price-amount {
+      font-family:var(--display); font-size:3rem; letter-spacing:0.03em;
+      color:var(--white); line-height:1; margin-bottom:0.25rem;
+    }
+    .price-amount sup {
+      font-family:var(--sans); font-size:1rem; vertical-align:top; margin-top:0.5rem;
+      display:inline-block; color:var(--gold);
+    }
+    .price-period { font-size:0.75rem; color:var(--white-dim); margin-bottom:1.5rem; }
+    .price-divider { height:1px; background:var(--border); margin-bottom:1.5rem; }
+    .price-features { list-style:none; display:flex; flex-direction:column; gap:0.75rem; margin-bottom:2rem; }
+    .price-features li {
+      font-size:0.85rem; color:var(--white-dim);
+      display:flex; gap:0.6rem; align-items:flex-start;
+    }
+    .price-features li::before { content:'✦'; color:var(--gold); font-size:0.6rem; margin-top:4px; flex-shrink:0; }
+
+    /* ============================================================
+       ABOUT PAGE
+    ============================================================ */
+    .about-story {
+      background:var(--black);
+      display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center;
+    }
+    .about-story img { height:500px; border-radius:var(--radius); filter:grayscale(20%); }
+    .about-values { background:var(--dark); }
+    .values-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:1.5rem; margin-top:3rem;
+    }
+    .value-card {
+      background:var(--dark2); border:1px solid var(--border);
+      border-radius:var(--radius); padding:2rem;
+    }
+    .value-num {
+      font-family:var(--display); font-size:2.5rem; color:var(--border);
+      line-height:1; margin-bottom:0.75rem;
+    }
+    .value-title { font-family:var(--serif); font-size:1.1rem; font-weight:600; margin-bottom:0.5rem; }
+    .value-desc { font-size:0.83rem; color:var(--white-dim); line-height:1.7; }
+
+    .trust-badges {
+      background:var(--black);
+      border-top:1px solid var(--border);
+    }
+    .badges-row {
+      display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; align-items:center;
+      margin-top:3rem;
+    }
+    .badge-item {
+      text-align:center; padding:1.5rem 2rem;
+      border:1px solid var(--border); border-radius:var(--radius);
+      min-width:130px;
+    }
+    .badge-icon { font-size:1.8rem; margin-bottom:0.5rem; }
+    .badge-text { font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--white-dim); }
+
+    /* ============================================================
+       CONTACT PAGE
+    ============================================================ */
+    .contact-section { background:var(--black); }
+    .contact-grid {
+      display:grid; grid-template-columns:1fr 1.4fr; gap:5rem; align-items:start;
+    }
+    .contact-info { display:flex; flex-direction:column; gap:2rem; }
+    .contact-detail { display:flex; gap:1rem; align-items:flex-start; }
+    .contact-detail-icon {
+      width:40px; height:40px; flex-shrink:0;
+      background:var(--white-faint); border:1px solid var(--border);
+      border-radius:var(--radius);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1rem; color:var(--gold);
+    }
+    .contact-detail-text h4 {
+      font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:0.3rem;
+    }
+    .contact-detail-text p { font-size:0.88rem; color:var(--white-dim); }
+
+    .contact-form { display:flex; flex-direction:column; gap:1.2rem; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+    .form-group { display:flex; flex-direction:column; gap:0.45rem; }
+    .form-group label {
+      font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background:var(--dark2); border:1px solid var(--border);
+      border-radius:var(--radius); padding:0.85em 1em;
+      font-family:var(--sans); font-size:0.88rem; color:var(--white);
+      outline:none; transition:border-color var(--transition);
+      width:100%;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color:var(--gold); }
+    .form-group select option { background:var(--dark2); }
+    .form-group textarea { resize:vertical; min-height:130px; }
+    .form-submit { margin-top:0.5rem; }
+
+    /* ============================================================
+       FAQ
+    ============================================================ */
+    .faq-section { background:var(--dark2); }
+    .faq-list { max-width:720px; margin:3rem auto 0; display:flex; flex-direction:column; gap:1px; }
+    .faq-item {
+      background:var(--dark3); border:1px solid var(--border); border-radius:var(--radius);
+      overflow:hidden; margin-bottom:4px;
+    }
+    .faq-q {
+      padding:1.2rem 1.5rem;
+      display:flex; justify-content:space-between; align-items:center;
+      cursor:pointer;
+      font-family:var(--serif); font-size:1rem; font-weight:600; color:var(--white);
+      transition:color var(--transition);
+    }
+    .faq-q:hover { color:var(--gold); }
+    .faq-q .faq-icon {
+      color:var(--gold); font-size:1.2rem; transition:transform var(--transition); flex-shrink:0;
+    }
+    .faq-item.open .faq-q .faq-icon { transform:rotate(45deg); }
+    .faq-a {
+      max-height:0; overflow:hidden; transition:max-height 0.4s ease, padding 0.4s ease;
+      font-size:0.87rem; color:var(--white-dim); line-height:1.8;
+      padding:0 1.5rem;
+    }
+    .faq-item.open .faq-a { max-height:300px; padding:0 1.5rem 1.2rem; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--dark);
+      border-top:1px solid var(--border);
+      padding:5rem 5vw 2.5rem;
+    }
+    .footer-grid {
+      display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr;
+      gap:3rem; margin-bottom:4rem;
+    }
+    .footer-brand {}
+    .footer-logo {
+      font-family:var(--display); font-size:2rem; letter-spacing:0.18em; color:var(--gold);
+      margin-bottom:0.75rem;
+    }
+    .footer-tagline {
+      font-family:var(--serif); font-style:italic;
+      font-size:0.9rem; color:var(--white-dim); line-height:1.6; max-width:240px;
+    }
+    .footer-social {
+      display:flex; gap:0.75rem; margin-top:1.5rem;
+    }
+    .social-icon {
+      width:36px; height:36px;
+      border:1px solid var(--border); border-radius:var(--radius);
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.85rem; color:var(--white-dim);
+      transition:border-color var(--transition), color var(--transition), background var(--transition);
+      cursor:pointer;
+    }
+    .social-icon:hover { border-color:var(--gold); color:var(--gold); background:var(--white-faint); }
+    .footer-col h5 {
+      font-size:0.68rem; letter-spacing:0.25em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:1.2rem;
+    }
+    .footer-col ul { display:flex; flex-direction:column; gap:0.65rem; }
+    .footer-col ul li a {
+      font-size:0.85rem; color:var(--white-dim);
+      transition:color var(--transition);
+    }
+    .footer-col ul li a:hover { color:var(--white); }
+    .footer-bottom {
+      border-top:1px solid var(--border); padding-top:2rem;
+      display:flex; justify-content:space-between; align-items:center;
+      flex-wrap:wrap; gap:1rem;
+    }
+    .footer-copy { font-size:0.75rem; color:var(--white-dim); }
+    .footer-links { display:flex; gap:2rem; }
+    .footer-links a { font-size:0.75rem; color:var(--white-dim); transition:color var(--transition); }
+    .footer-links a:hover { color:var(--gold); }
+
+    /* ============================================================
+       BACK TO TOP
+    ============================================================ */
+    #back-top {
+      position:fixed; bottom:2rem; right:2rem; z-index:800;
+      width:44px; height:44px; border-radius:var(--radius);
+      background:var(--gold); color:var(--black);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.1rem; cursor:pointer;
+      opacity:0; visibility:hidden;
+      transition: opacity var(--transition), visibility var(--transition), transform var(--transition);
+      border:none;
+    }
+    #back-top.visible { opacity:1; visibility:visible; }
+    #back-top:hover { transform:translateY(-4px); }
+
+    /* WhatsApp float */
+    .wa-float {
+      position:fixed; bottom:2rem; left:2rem; z-index:800;
+      background:#25D366; color:#fff;
+      width:48px; height:48px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.4rem; cursor:pointer;
+      box-shadow:0 4px 20px rgba(37,211,102,0.4);
+      transition: transform var(--transition);
+      text-decoration:none;
+    }
+    .wa-float:hover { transform:scale(1.1); }
+
+    /* ============================================================
+       ANIMATIONS (scroll reveal)
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(28px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .reveal {
+      opacity:0; transform:translateY(36px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-left {
+      opacity:0; transform:translateX(-36px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal-left.visible { opacity:1; transform:translateX(0); }
+    .reveal-right {
+      opacity:0; transform:translateX(36px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal-right.visible { opacity:1; transform:translateX(0); }
+
+    /* Stagger */
+    .stagger > * { opacity:0; transform:translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0s; }
+    .stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.1s; }
+    .stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.2s; }
+    .stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.3s; }
+    .stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.4s; }
+    .stagger.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.5s; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width:1024px) {
+      .why-grid { grid-template-columns:1fr; gap:3rem; }
+      .about-story { grid-template-columns:1fr; gap:3rem; }
+      .contact-grid { grid-template-columns:1fr; gap:3rem; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
+      .work-grid { grid-template-columns:1fr 1fr; }
+      .stats-bar { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:768px) {
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+      .hero-btns { flex-direction:column; align-items:center; }
+      .why-img-badge { bottom:-10px; right:-10px; padding:1rem; }
+      .footer-grid { grid-template-columns:1fr; }
+      .work-grid { grid-template-columns:1fr; }
+      .form-row { grid-template-columns:1fr; }
+      .footer-bottom { flex-direction:column; text-align:center; }
+      .stats-bar { grid-template-columns:1fr 1fr; gap:2rem; }
+    }
+    @media (max-width:480px) {
+      .stats-bar { grid-template-columns:1fr 1fr; }
+      .pricing-grid { grid-template-columns:1fr; }
+    }
+
+    /* ============================================================
+       NOTIFICATION
+    ============================================================ */
+    .notification {
+      position:fixed; top:90px; right:2rem; z-index:9000;
+      background:var(--dark3); border:1px solid var(--gold);
+      border-radius:var(--radius); padding:1rem 1.4rem;
+      font-size:0.85rem; color:var(--white);
+      transform:translateX(120%); transition:transform 0.4s ease;
+      max-width:300px;
+    }
+    .notification.show { transform:translateX(0); }
+    .notification strong { color:var(--gold); }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     LOADING SCREEN
+============================================================ -->
+<div id="loader">
+  <div class="loader-logo">CLIP CROWN</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- ============================================================
+     NAVIGATION
+============================================================ -->
+<nav id="nav">
+  <div class="nav-logo" onclick="navigate('home')" style="cursor:pointer">CLIP CROWN</div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="navigate('home');return false">Home</a></li>
+    <li><a href="#" onclick="navigate('services');return false">Services</a></li>
+    <li><a href="#" onclick="navigate('pricing');return false">Pricing</a></li>
+    <li><a href="#" onclick="navigate('about');return false">About</a></li>
+    <li><a href="#" onclick="navigate('contact');return false" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMobile()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#" onclick="navigate('home');toggleMobile();return false">Home</a>
+  <a href="#" onclick="navigate('services');toggleMobile();return false">Services</a>
+  <a href="#" onclick="navigate('pricing');toggleMobile();return false">Pricing</a>
+  <a href="#" onclick="navigate('about');toggleMobile();return false">About</a>
+  <a href="#" onclick="navigate('contact');toggleMobile();return false">Contact</a>
+</div>
+
+<!-- ============================================================
+     HOME PAGE
+============================================================ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Premium Videography & Film Production</p>
+      <h1 class="hero-headline">YOUR <span>STORY</span><br>IN MOTION</h1>
+      <p class="hero-sub">We craft cinematic experiences that captivate your audience and elevate your brand beyond the ordinary.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="navigate('contact')">Book a Session</button>
+        <button class="btn-outline" onclick="navigate('services')">Explore Our Work</button>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar stagger">
+    <div class="stat-item">
+      <div class="stat-num" data-count="250">0</div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="8">0</div>
+      <div class="stat-label">Years of Excellence</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="180">0</div>
+      <div class="stat-label">Happy Clients</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="12">0</div>
+      <div class="stat-label">Industry Awards</div>
+    </div>
+  </div>
+
+  <!-- SERVICES HOME -->
+  <section class="services-home">
+    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto;">
+      <span class="section-tag">What We Do</span>
+      <h2 class="section-title">Cinematic <em>Services</em><br>Tailored for You</h2>
+      <p class="section-body" style="margin:0 auto;">From intimate weddings to large-scale commercial productions, we bring a director's eye and a storyteller's heart to every frame.</p>
+    </div>
+    <div class="services-grid stagger">
+      <div class="service-card">
+        <div class="service-icon">🎬</div>
+        <div class="service-name">Wedding Films</div>
+        <p class="service-desc">Timeless wedding films that preserve every emotion, glance, and whispered vow with breathtaking cinematic quality.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📽️</div>
+        <div class="service-name">Commercial Production</div>
+        <p class="service-desc">High-impact brand videos and commercials designed to captivate audiences and drive real results for your business.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎭</div>
+        <div class="service-name">Event Coverage</div>
+        <p class="service-desc">Corporate events, galas, and live performances captured with multi-camera precision and cinematic storytelling.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎵</div>
+        <div class="service-name">Music Videos</div>
+        <p class="service-desc">Visually stunning music videos that translate your sound into an unforgettable visual narrative.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🏢</div>
+        <div class="service-name">Real Estate Video</div>
+        <p class="service-desc">Aerial drone footage and cinematic walkthroughs that make properties sell faster at premium prices.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">✂️</div>
+        <div class="service-name">Post-Production</div>
+        <p class="service-desc">Professional color grading, sound design, motion graphics, and full editing suites to polish every frame.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="why-us">
+    <div class="why-grid">
+      <div class="why-img reveal-left">
+        <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=900&q=80" alt="Professional videography equipment" />
+        <div class="why-img-badge">
+          8+<small>Years of</small><small>Excellence</small>
+        </div>
+      </div>
+      <div class="why-features reveal-right">
+        <div>
+          <span class="section-tag">Why Choose Us</span>
+          <h2 class="section-title">The <em>Clip Crown</em><br>Difference</h2>
+          <div class="divider"></div>
+        </div>
+        <div class="why-feature">
+          <div class="why-feature-icon">🎥</div>
+          <div class="why-feature-text">
+            <h4>Cinema-Grade Equipment</h4>
+            <p>We use the latest RED, ARRI, and Sony cinema cameras paired with professional lenses for unmatched image quality.</p>
+          </div>
+        </div>
+        <div class="why-feature">
+          <div class="why-feature-icon">🏆</div>
+          <div class="why-feature-text">
+            <h4>Award-Winning Team</h4>
+            <p>Our directors, editors, and colorists have worked on major productions and bring that expertise to every project.</p>
+          </div>
+        </div>
+        <div class="why-feature">
+          <div class="why-feature-icon">⚡</div>
+          <div class="why-feature-text">
+            <h4>Fast Turnaround</h4>
+            <p>We deliver highlight reels within 72 hours and full productions on schedule — without sacrificing quality.</p>
+          </div>
+        </div>
+        <div class="why-feature">
+          <div class="why-feature-icon">🎨</div>
+          <div class="why-feature-text">
+            <h4>Signature Color Grading</h4>
+            <p>Our proprietary color grading process gives every Clip Crown film a distinct, cinematic look you won't find elsewhere.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWREEL -->
+  <section class="reel-section">
+    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto 3rem;">
+      <span class="section-tag">Our Work</span>
+      <h2 class="section-title">Watch Our <em>Showreel</em></h2>
+    </div>
+    <div class="reel-wrapper reveal">
+      <div class="reel-poster"></div>
+      <div class="reel-play" title="Play Showreel">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+    </div>
+    <div class="work-grid stagger" style="margin-top:3rem;">
+      <div class="work-item">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=75" alt="Wedding film production" />
+        <div class="work-overlay">
+          <span class="work-cat">Wedding Film</span>
+          <div class="work-title">Sarah & James — A Love Story</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=700&q=75" alt="Commercial video production" />
+        <div class="work-overlay">
+          <span class="work-cat">Commercial</span>
+          <div class="work-title">Apex Brand Launch Campaign</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=700&q=75" alt="Music video production" />
+        <div class="work-overlay">
+          <span class="work-cat">Music Video</span>
+          <div class="work-title">Midnight Echo — "Fade Away"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto;">
+      <span class="section-tag">Client Stories</span>
+      <h2 class="section-title">What Our <em>Clients</em> Say</h2>
+    </div>
+    <div class="testi-grid stagger">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"Clip Crown turned our wedding into a cinematic masterpiece. We watch it every anniversary — it's more beautiful than the day itself."</p>
+        <div class="testi-author">Emma & David Whitmore</div>
+        <div class="testi-role">Wedding Clients</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"Our brand video tripled our conversion rate. The team understood our vision perfectly and delivered something beyond our wildest expectations."</p>
+        <div class="testi-author">Marcus Chen</div>
+        <div class="testi-role">CEO, NovaTech Solutions</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"The most professional videography team I've ever worked with. The attention to detail, the lighting, the editing — everything was flawless."</p>
+        <div class="testi-author">Aria Delacroix</div>
+        <div class="testi-role">Recording Artist</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div class="cta-band reveal">
+    <h2>READY TO <span>CREATE</span><br>SOMETHING ICONIC?</h2>
+    <p>Let's discuss your project and bring your vision to life with cinematic excellence.</p>
+    <button class="btn-primary" onclick="navigate('contact')">Book a Free Consultation</button>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div style="text-align:center; max-width:600px; margin:0 auto 1rem;">
+      <span class="section-tag">FAQs</span>
+      <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How far in advance should I book?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">We recommend booking at least 3–6 months in advance for weddings and major events, and 4–8 weeks for commercial projects. Peak seasons fill up quickly.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What's included in the final deliverables?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">All packages include color-graded footage, professionally edited final cut, licensed music, digital delivery via private link, and a highlight reel. Specifics vary by package.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Do you travel for projects?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Absolutely. We've filmed across continents. Travel fees apply for destinations outside our home region — we'll include a detailed quote during consultation.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How long before I receive my final video?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Highlight reels are typically delivered within 72 hours. Full wedding films take 4–8 weeks. Commercial projects are discussed during pre-production planning.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I request revisions?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Yes. All packages include at least 2 rounds of revisions. We want you to be 100% thrilled with your final film.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-home -->
+
+<!-- ============================================================
+     SERVICES PAGE
+============================================================ -->
+<div class="page" id="page-services">
+  <div class="page-hero">
+    <span class="section-tag">What We Offer</span>
+    <h1 style="font-family:var(--display);font-size:clamp(3rem,7vw,6.5rem);letter-spacing:0.06em;line-height:1;">OUR <span style="color:var(--gold)">SERVICES</span></h1>
+    <p style="font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--white-dim);margin-top:0.5rem;">Every frame tells a story. Every story deserves a crown.</p>
+  </div>
+
+  <section class="services-full">
+    <div class="services-full-grid stagger">
+      <div class="service-full-card">
+        <div class="service-full-img">
+          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=75" alt="Wedding videography" />
+        </div>
+        <div class="service-full-body">
+          <h3>Wedding Films</h3>
+          <p>Your wedding day is a once-in-a-lifetime event. Our wedding videographers blend into your celebration invisibly, capturing authentic moments, emotions, and the poetry of your day in a cinematic narrative film you'll treasure forever. Full ceremony, reception, and highlight reel included.</p>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <div class="service-full-img">
+          <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=700&q=75" alt="Commercial video production" />
+        </div>
+        <div class="service-full-body">
+          <h3>Commercial & Brand Videos</h3>
+          <p>In a crowded marketplace, your brand needs video that stops the scroll. We produce high-concept commercials, product launches, social media content, and corporate identity films that convert viewers into loyal customers. Strategy, scripting, production, and distribution guidance included.</p>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <div class="service-full-img">
+          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=75" alt="Event videography" />
+        </div>
+        <div class="service-full-body">
+          <h3>Event Coverage</h3>
+          <p>Corporate conferences, award galas, product launches, concerts, and cultural events — we deploy multi-camera rigs and seasoned operators to capture every keynote, performance, and standing ovation with broadcast-quality precision.</p>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <div class="service-full-img">
+          <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=700&q=75" alt="Music video production" />
+        </div>
+        <div class="service-full-body">
+          <h3>Music Videos</h3>
+          <p>We collaborate with artists to create visually arresting music videos that amplify your sound and build your visual identity. From concept development and location scouting to choreography direction and final color grade — we handle it all.</p>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <div class="service-full-img">
+          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&q=75" alt="Real estate video" />
+        </div>
+        <div class="service-full-body">
+          <h3>Real Estate & Architecture</h3>
+          <p>Properties sell faster and at higher prices with stunning video. We provide licensed drone operators, Matterport 3D walkthroughs, and cinematic property films that make listings irresistible to buyers in any market.</p>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <div class="service-full-img">
+          <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=700&q=75" alt="Post production editing" />
+        </div>
+        <div class="service-full-body">
+          <h3>Post-Production Suite</h3>
+          <p>Already have footage? Our post-production team offers color grading, sound design, motion graphics, visual effects, and full editing in our dedicated suite. We work with all formats and deliver broadcast-ready masters.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-band reveal">
+    <h2>NOT SURE WHICH<br><span>SERVICE YOU NEED?</span></h2>
+    <p>Let's have a free 15-minute call and we'll guide you to the perfect solution.</p>
+    <button class="btn-primary" onclick="navigate('contact')">Get a Free Consultation</button>
+  </div>
+</div><!-- /page-services -->
+
+<!-- ============================================================
+     PRICING PAGE
+============================================================ -->
+<div class="page" id="page-pricing">
+  <div class="page-hero">
+    <span class="section-tag">Investment</span>
+    <h1 style="font-family:var(--display);font-size:clamp(3rem,7vw,6.5rem);letter-spacing:0.06em;line-height:1;">PRICING <span style="color:var(--gold)">PACKAGES</span></h1>
+    <p style="font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--white-dim);margin-top:0.5rem;">Transparent pricing. Exceptional value. No hidden fees.</p>
+  </div>
+
+  <section class="pricing-section">
+    <div class="reveal" style="text-align:center; max-width:580px; margin:0 auto;">
+      <span class="section-tag">Wedding Packages</span>
+      <h2 class="section-title">Choose Your <em>Wedding</em> Package</h2>
+    </div>
+    <div class="pricing-grid stagger">
+      <div class="price-card">
+        <div class="price-tier">Essential</div>
+        <div class="price-name">Silver Frame</div>
+        <div class="price-amount"><sup>$</sup>1,499</div>
+        <div class="price-period">Starting from / full day coverage</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Up to 8 hours coverage</li>
+          <li>1 videographer</li>
+          <li>3-minute highlight reel</li>
+          <li>Full ceremony edit</li>
+          <li>Color-graded footage</li>
+          <li>Private digital delivery</li>
+          <li>2 rounds of revisions</li>
+        </ul>
+        <button class="btn-outline" style="width:100%;" onclick="navigate('contact')">Book This Package</button>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="price-tier">Premium</div>
+        <div class="price-name">Gold Crown</div>
+        <div class="price-amount"><sup>$</sup>2,999</div>
+        <div class="price-period">Starting from / full day coverage</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Up to 12 hours coverage</li>
+          <li>2 videographers</li>
+          <li>5-minute cinematic film</li>
+          <li>Full ceremony + reception edit</li>
+          <li>Drone aerial footage</li>
+          <li>Dolby audio mix</li>
+          <li>USB keepsake + digital delivery</li>
+          <li>Unlimited revisions</li>
+        </ul>
+        <button class="btn-primary" style="width:100%;" onclick="navigate('contact')">Book This Package</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Luxury</div>
+        <div class="price-name">Platinum Reel</div>
+        <div class="price-amount"><sup>$</sup>5,499</div>
+        <div class="price-period">Starting from / multi-day coverage</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Multi-day coverage (up to 3 days)</li>
+          <li>3-person crew</li>
+          <li>10-minute feature film</li>
+          <li>Full ceremony + reception + speeches</li>
+          <li>Drone + gimbal + slider footage</li>
+          <li>Full Dolby audio + original score</li>
+          <li>Private screening + USB box set</li>
+          <li>30-second social teaser</li>
+          <li>Priority delivery in 3 weeks</li>
+        </ul>
+        <button class="btn-outline" style="width:100%;" onclick="navigate('contact')">Book This Package</button>
+      </div>
+    </div>
+
+    <div class="reveal" style="text-align:center; max-width:580px; margin:5rem auto 0;">
+      <span class="section-tag">Commercial</span>
+      <h2 class="section-title">Commercial <em>Productions</em></h2>
+    </div>
+    <div class="pricing-grid stagger" style="margin-top:3rem;">
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-name">Brand Spark</div>
+        <div class="price-amount"><sup>$</sup>899</div>
+        <div class="price-period">Per video / up to 60 sec</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>60-second promo video</li>
+          <li>Half-day shoot</li>
+          <li>1 location</li>
+          <li>Professional editing</li>
+          <li>Licensed background music</li>
+          <li>Social media format exports</li>
+        </ul>
+        <button class="btn-outline" style="width:100%;" onclick="navigate('contact')">Get Started</button>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-badge">Best Value</div>
+        <div class="price-tier">Growth</div>
+        <div class="price-name">Campaign Series</div>
+        <div class="price-amount"><sup>$</sup>2,499</div>
+        <div class="price-period">3-video bundle</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>3 × 60–90 second videos</li>
+          <li>Full day shoot</li>
+          <li>Up to 3 locations</li>
+          <li>Scriptwriting & storyboard</li>
+          <li>Motion graphics & titles</li>
+          <li>Full social suite (9 formats)</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <button class="btn-primary" style="width:100%;" onclick="navigate('contact')">Get Started</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Enterprise</div>
+        <div class="price-name">Full Production</div>
+        <div class="price-amount">Custom</div>
+        <div class="price-period">Tailored to your scope</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Full pre-production planning</li>
+          <li>Multi-day shoots</li>
+          <li>Actors, props & set design</li>
+          <li>VFX & motion graphics</li>
+          <li>Broadcast & cinema formats</li>
+          <li>Distribution strategy</li>
+          <li>Ongoing content retainer available</li>
+        </ul>
+        <button class="btn-outline" style="width:100%;" onclick="navigate('contact')">Request a Quote</button>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-pricing -->
+
+<!-- ============================================================
+     ABOUT PAGE
+============================================================ -->
+<div class="page" id="page-about">
+  <div class="page-hero">
+    <span class="section-tag">Our Story</span>
+    <h1 style="font-family:var(--display);font-size:clamp(3rem,7vw,6.5rem);letter-spacing:0.06em;line-height:1;">ABOUT <span style="color:var(--gold)">US</span></h1>
+    <p style="font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--white-dim);margin-top:0.5rem;">Passion-driven filmmakers. Detail-obsessed storytellers.</p>
+  </div>
+
+  <section class="about-story">
+    <div class="reveal-left">
+      <img src="https://images.unsplash.com/photo-1536240478700-b869ad10a2eb?w=900&q=80" alt="Clip Crown film crew on set" />
+    </div>
+    <div class="reveal-right">
+      <span class="section-tag">Founded 2016</span>
+      <h2 class="section-title">Born from a <em>Love</em><br>of Storytelling</h2>
+      <div class="divider"></div>
+      <p class="section-body" style="margin-bottom:1.5rem;">Clip Crown was founded on a simple belief: every story deserves to be told beautifully. What began as a two-person team with a passion for filmmaking has grown into an award-winning production studio trusted by couples, brands, and artists around the world.</p>
+      <p class="section-body" style="margin-bottom:1.5rem;">We combine technical mastery — cinema-grade cameras, precision lighting, drone cinematography — with a deep commitment to emotional storytelling. The result is work that doesn't just document moments but transforms them into art.</p>
+      <p class="section-body">Our team of directors, cinematographers, and editors bring together decades of combined experience from feature films, broadcast television, and advertising. When you hire Clip Crown, you get a world-class production team fully dedicated to your vision.</p>
+    </div>
+  </section>
+
+  <section class="about-values">
+    <div class="reveal" style="text-align:center; max-width:580px; margin:0 auto 1rem;">
+      <span class="section-tag">Our Values</span>
+      <h2 class="section-title">Principles We <em>Live By</em></h2>
+    </div>
+    <div class="values-grid stagger">
+      <div class="value-card">
+        <div class="value-num">01</div>
+        <div class="value-title">Craft First</div>
+        <p class="value-desc">We never cut corners. Every shot is composed with intention, every edit is deliberate, and every color grade is perfected frame by frame.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">02</div>
+        <div class="value-title">Client Partnership</div>
+        <p class="value-desc">We listen deeply before we film. Your vision, your brand, your story — we become stewards of what matters most to you.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">03</div>
+        <div class="value-title">Emotional Truth</div>
+        <p class="value-desc">Technical perfection serves one purpose: capturing authentic emotion. We pursue moments that make audiences feel something real.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">04</div>
+        <div class="value-title">Relentless Innovation</div>
+        <p class="value-desc">From the latest camera tech to cutting-edge post-production, we stay ahead of the curve so your work always looks ahead of its time.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-badges">
+    <div class="reveal" style="text-align:center; max-width:580px; margin:0 auto 1rem;">
+      <span class="section-tag">Credentials</span>
+      <h2 class="section-title">Trusted &amp; <em>Recognized</em></h2>
+    </div>
+    <div class="badges-row stagger">
+      <div class="badge-item">
+        <div class="badge-icon">🏆</div>
+        <div class="badge-text">12 Industry Awards</div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon">🎬</div>
+        <div class="badge-text">250+ Films Made</div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon">🌍</div>
+        <div class="badge-text">30+ Countries</div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon">⭐</div>
+        <div class="badge-text">5-Star Rated</div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon">🎯</div>
+        <div class="badge-text">100% Client Satisfaction</div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-about -->
+
+<!-- ============================================================
+     CONTACT PAGE
+============================================================ -->
+<div class="page" id="page-contact">
+  <div class="page-hero">
+    <span class="section-tag">Let's Talk</span>
+    <h1 style="font-family:var(--display);font-size:clamp(3rem,7vw,6.5rem);letter-spacing:0.06em;line-height:1;">GET IN <span style="color:var(--gold)">TOUCH</span></h1>
+    <p style="font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--white-dim);margin-top:0.5rem;">We'd love to hear about your project. Reach out and let's create something extraordinary.</p>
+  </div>
+
+  <section class="contact-section">
+    <div class="contact-grid">
+      <div class="contact-info reveal-left">
+        <div>
+          <span class="section-tag">Contact Information</span>
+          <h2 class="section-title">We're <em>Ready</em><br>to Create</h2>
+          <div class="divider"></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">✉</div>
+          <div class="contact-detail-text">
+            <h4>Email Us</h4>
+            <p><a href="mailto:contactglanders@gmail.com" style="color:var(--white-dim);transition:color var(--transition)" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--white-dim)'">contactglanders@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div class="contact-detail-text">
+            <h4>Studio Location</h4>
+            <p>Available Worldwide · Remote Consultations Welcome</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">🕐</div>
+          <div class="contact-detail-text">
+            <h4>Response Time</h4>
+            <p>Within 24 hours on business days</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📅</div>
+          <div class="contact-detail-text">
+            <h4>Availability</h4>
+            <p>Booking now for 2025 & 2026 dates</p>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem;">
+          <p style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;">Follow Our Work</p>
+          <div style="display:flex;gap:0.75rem;">
+            <a class="social-icon" href="#" title="Instagram">IG</a>
+            <a class="social-icon" href="#" title="YouTube">YT</a>
+            <a class="social-icon" href="#" title="Vimeo">VM</a>
+            <a class="social-icon" href="#" title="TikTok">TK</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-right">
+        <div style="background:var(--dark2);border:1px solid var(--border);border-radius:var(--radius);padding:2.5rem;">
+          <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:0.3rem;">Send Us a Message</h3>
+          <p style="font-size:0.82rem;color:var(--white-dim);margin-bottom:2rem;">Tell us about your project and we'll get back to you with a tailored proposal.</p>
+          <div class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" id="firstName" placeholder="John" />
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="lastName" placeholder="Doe" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="emailField" placeholder="john@example.com" />
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" id="phoneField" placeholder="+1 (555) 000-0000" />
+            </div>
+            <div class="form-group">
+              <label>Service Interested In</label>
+              <select id="serviceSelect">
+                <option value="">Select a service...</option>
+                <option>Wedding Films</option>
+                <option>Commercial & Brand Videos</option>
+                <option>Event Coverage</option>
+                <option>Music Videos</option>
+                <option>Real Estate Video</option>
+                <option>Post-Production</option>
+                <option>Other / Not Sure</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tell Us About Your Project</label>
+              <textarea id="messageField" placeholder="Share your vision, event date, location, and any specific requirements..."></textarea>
+            </div>
+            <div class="form-submit">
+              <button class="btn-primary" style="width:100%;" onclick="submitForm()">Send My Enquiry →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-contact -->
+
+<!-- ============================================================
+     FOOTER (shared)
+============================================================ -->
+<footer id="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">CLIP CROWN</div>
+      <p class="footer-tagline">Premium videography & cinematic storytelling for the moments that define you.</p>
+      <div class="footer-social">
+        <a class="social-icon" href="#" title="Instagram">IG</a>
+        <a class="social-icon" href="#" title="YouTube">YT</a>
+        <a class="social-icon" href="#" title="Vimeo">VM</a>
+        <a class="social-icon" href="#" title="TikTok">TK</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#" onclick="navigate('services');return false">Wedding Films</a></li>
+        <li><a href="#" onclick="navigate('services');return false">Commercial Videos</a></li>
+        <li><a href="#" onclick="navigate('services');return false">Event Coverage</a></li>
+        <li><a href="#" onclick="navigate('services');return false">Music Videos</a></li>
+        <li><a href="#" onclick="navigate('services');return false">Real Estate</a></li>
+        <li><a href="#" onclick="navigate('services');return false">Post-Production</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#" onclick="navigate('home');return false">Home</a></li>
+        <li><a href="#" onclick="navigate('about');return false">About Us</a></li>
+        <li><a href="#" onclick="navigate('pricing');return false">Pricing</a></li>
+        <li><a href="#" onclick="navigate('contact');return false">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:contactglanders@gmail.com">contactglanders@gmail.com</a></li>
+        <li><a href="#">Available Worldwide</a></li>
+        <li><a href="#">Mon–Fri: 9am–6pm</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Clip Crown. All rights reserved. Crafted with ✦ passion.</p>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<!-- WhatsApp -->
+<a class="wa-float" href="https://wa.me/?text=Hi%20Clip%20Crown%2C%20I%27d%20like%20to%20discuss%20a%20project!" target="_blank" title="Chat on WhatsApp">💬</a>
+
+<!-- Notification toast -->
+<div class="notification" id="notification">
+  <strong>✓ Message Sent!</strong><br>We'll get back to you within 24 hours.
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ---- Loader ---- */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+    }, 1900);
+  });
+
+  /* ---- Navigation ---- */
+  function navigate(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => { initObserver(); }, 100);
+  }
+
+  /* ---- Mobile nav ---- */
+  function toggleMobile() {
+    const mn = document.getElementById('mobileNav');
+    mn.classList.toggle('open');
+  }
+
+  /* ---- Sticky nav ---- */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+    const btn = document.getElementById('back-top');
+    btn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  /* ---- Scroll reveal ---- */
+  function initObserver() {
+    const targets = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .stagger');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    targets.forEach(t => observer.observe(t));
+  }
+  document.addEventListener('DOMContentLoaded', initObserver);
+
+  /* ---- Counter animation ---- */
+  function animateCounters() {
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const target = +el.dataset.count;
+      const suffix = target > 100 ? '+' : (target < 20 ? '+' : '+');
+      let current = 0;
+      const step = Math.ceil(target / 50);
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(timer); }
+        el.textContent = current + suffix;
+      }, 35);
+    });
+  }
+  const statsBar = document.querySelector('.stats-bar');
+  if (statsBar) {
+    const so = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { animateCounters(); so.disconnect(); }
+    }, { threshold: 0.5 });
+    so.observe(statsBar);
+  }
+
+  /* ---- FAQ ---- */
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ---- Form submit ---- */
+  function submitForm() {
+    const first = document.getElementById('firstName').value.trim();
+    const email = document.getElementById('emailField').value.trim();
+    const msg   = document.getElementById('messageField').value.trim();
+    if (!first || !email || !msg) {
+      alert('Please fill in your name, email, and message.');
+      return;
+    }
+    const note = document.getElementById('notification');
+    note.classList.add('show');
+    setTimeout(() => note.classList.remove('show'), 4000);
+
+    // Mailto fallback
+    const subject = encodeURIComponent('Project Enquiry from ' + first);
+    const body = encodeURIComponent(
+      'Name: ' + first + ' ' + (document.getElementById('lastName').value||'') + '\n' +
+      'Email: ' + email + '\n' +
+      'Phone: ' + (document.getElementById('phoneField').value||'N/A') + '\n' +
+      'Service: ' + (document.getElementById('serviceSelect').value||'N/A') + '\n\n' +
+      'Message:\n' + msg
+    );
+    window.location.href = 'mailto:contactglanders@gmail.com?subject=' + subject + '&body=' + body;
+  }
+</script>
+
+</body>
+</html>
